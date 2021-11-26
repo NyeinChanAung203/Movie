@@ -1,0 +1,77 @@
+{% extends 'movie/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+
+<!-- latest movies ============== -->
+
+<section id="latest">
+    <!-- heading -->
+    <div class="latest-heading">
+        <h1>Search Movies</h1>
+    </div>
+    <!-- container -->
+    <div class="post-container">
+        {% for movie in object_list %}
+        <!-- postbox1 -->
+        <div class="post-box">
+            <!-- img -->
+            <div class="post-img">
+                <img src="{{movie.image.url}}" alt="{{movie.title}}">
+            </div>
+            <!-- text  -->
+            <div class="main-slider-text">
+                <!-- quality -->
+                <span class="quality">Full HD</span>
+                
+                <!-- bottom text -->
+                <div class="bottom-text">
+                    <!-- name -->
+                    <div class="movie-name">
+                        <span>{{movie.year_of_production}}</span>
+                        <a href="{{movie.get_absolute_url}}">{{movie.title}}</a>
+                    </div>
+                    <!-- category and rating -->
+                    <div class="category-rating">
+                        <div class="category">
+                            <a href="{% url 'movie-category' movie.category %}">{{movie.category}}</a>
+                        </div>
+                        <div class="rating">
+                            {{movie.rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imbd">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <h1 style="margin: 30vh 10px;color:#fff;">Content not Found !</h1>
+        {% endfor %}
+    </div>
+    <!-- container end -->
+
+    <!-- page number -->
+    {% if page_obj.has_other_pages %}
+    <div class="page-number">
+        {% if page_obj.has_previous %}
+        {% endif %}
+        {% for page in page_obj.paginator.page_range %}
+            {% if page_obj.number == page %}
+                <a href="#" class="page-active">{{page}}</a>
+            {% else %}
+                <a href="?page={{page}}">{{page}}</a>
+            {% endif %}
+        {% endfor %}
+        <!-- {{ page_obj.paginator.num_pages }} -->
+        {% if page_obj.has_next %}
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+
+<!-- latest post end -->
+
+
+{% endblock content %}

@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <!-- <link rel="stylesheet" href="css/lightslider.css"/> -->
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}"/>
+
+    
+    <!-- swiper js -->
+    <link src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.3.0/swiper-bundle.min.js" >
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
+    
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Monoton&family=Poppins:wght@300&display=swap" rel="stylesheet">
+    
+    <!-- contact  -->
+     
+
+    <!-- <script src="js/JQuery3.3.1.js"></script> -->
+    <!-- <script src="js/lightslider.js"></script> -->
+    <script defer src="https://pro.fontawesome.com/releases/v5.10.0/js/all.js" integrity="sha384-G/ZR3ntz68JZrH4pfPJyRbjW+c0+ojii5f+GYiYwldYU69A+Ejat6yIfLSxljXxD" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>
+        {% block title %} {% endblock title %} MHD Movies
+    </title>
+</head>
+<body>
+
+    <!-- scroll progress bar -->
+    <div id="progress">
+        <span id="progress-value"></span>
+    </div>
+
+    <!-- navigation -->
+    <nav class="navigation">
+
+        <!-- menu btn  -->
+        <input type="checkbox" class="menu-btn" id="menuBtn">
+        <label for="menuBtn" class="menu-icon"  onclick="check()">
+            <span class="nav-icon"  onclick="check()"></span>
+        </label>
+
+        <!-- logo -->
+        <a href="{% url 'movie_list' %}" class="logo">
+            Movies<span>.hd</span>
+        </a>
+        <!-- menu -->
+        <ul class="menu" id="menu">
+            <li><a href="{% url 'movie_list' %}">Home</a></li>
+            <li><a href="{% url 'genre' %}">Genre</a></li>
+            <li><a href="#">TV Shows</a></li>
+            <li><a href="{% url 'movie_list' %}">Movies</a></li>
+            <!-- <li><a href="#">Contact</a></li> -->
+        </ul>
+         <!-- search box -->
+        <form accept="" class="search-box" method="GET" action="{% url 'search' %}">
+            <input type="text" name="q" placeholder="Search Movies" class="search-input" required>
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </nav>
+    
+    {% block content %}
+    {% endblock content %}
+    
+
+    <!-- footer  -->
+
+    <footer>
+        <a href="{% url 'movie_list' %}" class="logo"> 
+            Movies<span>hd</span>
+        </a>
+        <!-- copyright -->
+        <span class="copyright">
+            Copyright 2021 - GoingToInternet
+        </span>
+    </footer>
+
+
+
+
+
+
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+   <!-- Initialize Swiper -->
+   <script>
+    //    scroll progress 
+    let scrollPrecentage = () =>{
+        let scrollProgress= document.getElementById('progress');
+        let progressValue = document.getElementById('progress-value');
+        let pos = document.documentElement.scrollTop;
+        let calcHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
+        let scrollValue = Math.round(pos * 100 / calcHeight )
+        scrollProgress.style.background = `conic-gradient(#e70634 ${scrollValue}%,#2b2f38 ${scrollValue}%)`;
+
+    }
+    window.onscroll = scrollPrecentage;
+    window.onload = scrollPrecentage;
+
+    //swiper
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 1,
+      spaceBetween: 10,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      autoplay:{
+          delay: 5000,
+          disableOnInteraction: false,
+      },
+      navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 40,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 50,
+        },
+      },
+    });
+
+    // menu btn fiex when scroll 
+    $(window).scroll(function(){
+        if($(document).scrollTop()>20){
+            $('.navigation').addClass('fix-icon');
+        }else{
+            $('.navigation').removeClass('fix-icon');
+        }
+    })
+  </script>
+
+  {% block js %}
+    {% endblock js%}
+</body>
+</html>

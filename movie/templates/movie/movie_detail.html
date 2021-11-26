@@ -1,0 +1,158 @@
+{% extends 'movie/base.html' %}
+{% load static %}
+{% block title %}
+    {{object|title}} - 
+{% endblock title %}
+{% block content %}
+    <!-- Movie Banner -->
+    <section class="movie-banner">
+        <!-- img -->
+        <div class="m-banner-img">
+            <img src="{{object.image.url}}" alt={{object.title}}>
+        </div>
+        <!-- content  -->
+        <div class="banner-container">
+            <!-- title container  -->
+            <div class="title-container">
+                <!-- title top  -->
+                <div class="title-top">
+                    <!-- title  -->
+                    <div class="movie-title">
+                        <h1>{{object.title}}</h1>
+                    </div>
+                    <!-- more about movie -->
+                    <div class="more-about-movie">
+                        <span class="quality">Full HD</span>
+                        <div class="rating">
+                            {{object.rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imdb">
+                        </div>
+                        <span>{{object.year_of_production}}</span>
+                        <!-- <span>87min</span> -->
+                    </div>
+                    <!-- language -->
+                    <div class="language">
+                        <span>{{object.language}}</span>
+                    </div>
+                </div>
+
+                <!-- title bottom  -->
+                <div class="title-bottom">
+                    <div class="category">
+                        {% if object.cast %}
+                        <strong>Cast</strong>
+                        <p style="color: #e70634;">{{object.cast}} </p>
+                        <br>
+                        {% endif %}
+                        <strong>Category</strong><br>
+                        <a href="{% url 'movie-category' object.category %}">{{object.category}}</a>
+                        
+                        
+                    </div>
+                    
+                    <!-- trailer btn  -->
+                    
+                        {% if object.trailer %}
+                            <a href="{{object.trailer}}" target="_blank" class="watch-btn" style="margin-top: 10px;">Watch Trailer</a>
+                        {% endif %}
+                    
+                </div>
+                
+            </div>
+            <!-- play btn  -->
+            <div class="play-btn-container">
+                <div class="play-btn">
+                    <a href="{{object.trailer}}">
+                        <i class="fas fa-play"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Vide/fullmovie -->
+
+            <div id="play" class="play">
+                <!-- close btn  -->
+                <a href="{{object.trailer}}" class="close-movie">
+                    <i class="fas fa-times"></i>
+                </a>
+                <!-- movie  -->
+                <!-- <div class="play-movie">
+                    <video id="m-video" controls>
+                        <source src="{{object.movie_watch_link.first.link}}" type="video/mp4">
+                    </video>
+                </div> -->
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- banner end=========================== -->
+
+    <!-- details ============= -->
+    <section class="movie-details">
+        <strong>{{object.title}}</strong>
+        <p>{{object.description}}</p>
+    </section>
+
+    <!-- Screenshots -->
+    {% if screenshots %}
+    <section class="screenshots">
+        <strong>ScreenShots</strong>
+        <!-- screen shot container  -->
+        <div class="screen-s-container">
+            {% for s in screenshots %}
+            <img src="{{s.image.url}}">
+            {% endfor %}
+            
+
+        </div>
+    </section>
+    {% endif %}
+    <!-- download ================ -->
+
+    <section class="download-movie">
+        <!-- container -->
+        <div class="download-container">
+            {% for link in links %}
+            
+            <!-- box -->
+            <div class="download-box">
+                <span>
+                    <i class="fas fa-server"></i>&nbsp;Server {{forloop.counter}}
+                </span>
+                <span>English</span>
+                <span>{{link.quality}}</span>
+                <a href="{{link.link}}">Download</a>
+            </div>
+            
+            {% endfor %}
+            <!-- box -->
+            
+        </div>
+    </section>
+
+
+{% endblock content %}
+    
+    {% comment %}
+    {% block js %}
+    <script>
+        // popup-open 
+        $(document).on('click','.play-btn a',function(){
+            $('.play').addClass('active-popup');
+        })
+        // popup-close 
+        $(document).on('click','.close-movie',function(){
+            $('.play').removeClass('active-popup');
+        })
+
+        // autoplay -when popup open 
+        $('.play-btn a').click(function(){
+            $('#m-video')[0].play();
+        })
+        // close video when popup close
+        $('.close-movie').click(function(){
+            $('#m-video')[0].pause();
+        })
+    </script>   
+   {% endblock js %}
+     {% endcomment %}
