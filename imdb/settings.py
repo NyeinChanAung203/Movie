@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-$aq&3+8_zwa=90=!abc8sla(56k^^y*a=lm$r0llx)k$yu3ekq
 DEBUG = False
 
 ALLOWED_HOSTS = ['dj-imdb.herokuapp.com','127.0.0.1']
-
+# ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -134,9 +134,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'staticdir'
 ]
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = BASE_DIR / 'static'
+
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
